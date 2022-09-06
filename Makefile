@@ -8,3 +8,6 @@ setup: install publish
 
 gendiff:
 	node bin/gendiff.js --help
+
+lint:
+	npx eslint .
