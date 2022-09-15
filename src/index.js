@@ -19,6 +19,22 @@ const sortDiff = (prev, next) => {
   if (prev.key === next.key) return 0;
 };
 
+const renderDiff = (diff) => {
+  const diffList = [];
+
+  diff.forEach(({ key, value, status}) => {
+    diffList.push(`${status} ${key}: ${value}`);
+  });
+
+  const str = {
+    start: `\n{\n  `,
+    end: `\n}\n`,
+    body: diffList.join('\n  ')
+  };
+
+  return str.start + str.body + str.end;
+};
+
 const getDiff = (filepath1, filepath2) => {
   const initialData = getNormalizedData(filepath1);
   const comparedData = getNormalizedData(filepath2);
@@ -57,9 +73,9 @@ const getDiff = (filepath1, filepath2) => {
 };
 
 const genDiff = (filepath1, filepath2) => {
-  const diffs = getDiff(filepath1, filepath2);
-  diffs.sort(sortDiff);
-  return diffs;
+  const diff = getDiff(filepath1, filepath2);
+  diff.sort(sortDiff);
+  return renderDiff(diff);
 };
 
 export default genDiff;
