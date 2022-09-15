@@ -8,12 +8,18 @@ const status = {
 }
 
 const getNormalizedData = (filepath) => JSON.parse(readFileSync(filepath, 'utf-8'));
+
 const createRecord = (key, value, status) => {
   return { key, value, status };
 };
 
+const sortDiff = (prev, next) => {
+  if (prev.key > next.key) return 1;
+  if (prev.key < next.key) return -1;
+  if (prev.key === next.key) return 0;
+};
 
-const generateDiff = (filepath1, filepath2) => {
+const getDiff = (filepath1, filepath2) => {
   const initialData = getNormalizedData(filepath1);
   const comparedData = getNormalizedData(filepath2);
   const result = [];
@@ -50,4 +56,10 @@ const generateDiff = (filepath1, filepath2) => {
   return result;
 };
 
-export default generateDiff;
+const genDiff = (filepath1, filepath2) => {
+  const diffs = getDiff(filepath1, filepath2);
+  diffs.sort(sortDiff);
+  return diffs;
+};
+
+export default genDiff;
