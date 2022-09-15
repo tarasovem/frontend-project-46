@@ -1,36 +1,9 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander';
-//import { readFileSync } from 'fs';
-//import _ from 'lodash';
 import genDiff from '../src/index.js';
 
 const program = new Command();
-
-/*const genDiff = (filepath1, filepath2) => {
-  const getParsedData = (filepath) => {
-    const serializedData = readFileSync(filepath, 'utf-8');
-    return JSON.parse(serializedData);
-  };
-
-  const data1 = getParsedData(filepath1);
-  const data2 = getParsedData(filepath2);
-  const result = {};
-  const entries = Object.entries(data1);
-
-  for (let [ key, value ] of entries) {
-    if (_.has(data2, key) && data2[key] !== data1[key]) {
-      result[`- ${key}`] = data1[key];
-      result[`+ ${key}`] = data2[key];
-    } else if (!_.has(data1, key)) {
-      result[`+ ${key}`] = value
-    } else if (_.has(data2, key) && data2[key] === data1[key]) {
-      result[`  ${key}`] = value;
-    } else {
-      result[`- ${key}`] = data1[key];
-    }
-  }
-
-   return result;
-};*/
 
 program
   .name('gendiff')

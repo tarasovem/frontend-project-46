@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import path from 'path';
 import _ from 'lodash';
 
 const status = {
@@ -7,7 +8,10 @@ const status = {
   unchanged: ' '
 }
 
-const getNormalizedData = (filepath) => JSON.parse(readFileSync(filepath, 'utf-8'));
+const getNormalizedData = (filepath) => {
+  const absolutePath = path.resolve(process.cwd(), filepath);
+  return JSON.parse(readFileSync(absolutePath, 'utf-8'));
+};
 
 const createRecord = (key, value, status) => {
   return { key, value, status };
