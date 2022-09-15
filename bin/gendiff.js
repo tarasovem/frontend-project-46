@@ -1,9 +1,11 @@
-const { Command } = require('commander');
-const program = new Command();
-const { readFileSync } = require('node:fs');
-const _ = require('lodash');
+import { Command } from 'commander';
+//import { readFileSync } from 'fs';
+//import _ from 'lodash';
+import genDiff from '../src/index.js';
 
-const genDiff = (filepath1, filepath2) => {
+const program = new Command();
+
+/*const genDiff = (filepath1, filepath2) => {
   const getParsedData = (filepath) => {
     const serializedData = readFileSync(filepath, 'utf-8');
     return JSON.parse(serializedData);
@@ -28,7 +30,7 @@ const genDiff = (filepath1, filepath2) => {
   }
 
    return result;
-};
+};*/
 
 program
   .name('gendiff')
