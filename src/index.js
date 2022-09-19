@@ -5,35 +5,25 @@ import _ from 'lodash';
 const status = {
   added: '+',
   removed: '-',
-  unchanged: ' '
-}
+  unchanged: ' ',
+};
 
 const getNormalizedData = (filepath) => {
   const absolutePath = path.resolve(process.cwd(), filepath);
   return JSON.parse(readFileSync(absolutePath, 'utf-8'));
 };
 
-const createRecord = (key, value, status) => {
-  return { key, value, status };
-};
-
-const sortDiff = (prev, next) => {
-  if (prev.key > next.key) return 1;
-  if (prev.key < next.key) return -1;
-  if (prev.key === next.key) return 0;
-};
-
 const renderDiff = (diff) => {
   const diffList = [];
 
-  diff.forEach(({ key, value, status}) => {
-    diffList.push(`${status} ${key}: ${value}`);
+  diff.forEach((item) => {
+    diffList.push(`${item.status} ${item.key}: ${item.value}`);
   });
 
   const str = {
-    start: `\n{\n  `,
-    end: `\n}\n`,
-    body: diffList.join('\n  ')
+    start: '\n{\n  ',
+    end: '\n}\n',
+    body: diffList.join('\n  '),
   };
 
   return str.start + str.body + str.end;
@@ -88,7 +78,6 @@ const getDiff = (filepath1, filepath2) => {
 
 const genDiff = (filepath1, filepath2) => {
   const diff = getDiff(filepath1, filepath2);
-  diff.sort(sortDiff);
   return renderDiff(diff);
 };
 
