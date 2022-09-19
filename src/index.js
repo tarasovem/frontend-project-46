@@ -40,39 +40,49 @@ const renderDiff = (diff) => {
 };
 
 const getDiff = (filepath1, filepath2) => {
-  const initialData = getNormalizedData(filepath1);
-  const comparedData = getNormalizedData(filepath2);
+  const data1 = getNormalizedData(filepath1);
+  const data2 = getNormalizedData(filepath2);
+  const keys = _.union(_.keys(data1), _.keys(data2)).sort();
   const result = [];
 
-  for (let [ key, value ] of _.entries(initialData)) {
-    let record;
-
-    if (!_.has(comparedData, key)) {
-      record = createRecord(key, value, status.removed);
-      result.push(record);
+  keys.forEach((item) => {
+    if (_.has(data1, item) && !_.has(data2, item)) {
+      result.push({
+        key: item,
+        value: data1[item],
+        status: status.removed,
+      });
     }
 
-    if (_.has(comparedData, key) && comparedData[key] === value) {
-      record = createRecord(key, value, status.unchanged);
-      result.push(record);
-      delete comparedData[key];
+    if (!_.has(data1, item) && _.has(data2, item)) {
+      result.push({
+        key: item,
+        value: data2[item],
+        status: status.added,
+      });
     }
 
-    if (_.has(comparedData, key) && comparedData[key] !== value) {
-      const firstRecord = createRecord(key, value, status.removed);
-      const secondRecord = createRecord(key, comparedData[key], status.added);
-      result.push(firstRecord, secondRecord);
-      delete comparedData[key];
+    if (_.has(data1, item) && _.has(data2, item) && data1[item] === data2[item]) {
+      result.push({
+        key: item,
+        value: data2[item],
+        status: status.unchanged,
+      });
     }
-  }
 
-  if (!_.isEmpty(comparedData)) {
-    for (let [ key, value ] of _.entries(comparedData)) {
-      const record = createRecord(key, value, status.added);
-      result.push(record);
+    if (_.has(data1, item) && _.has(data2, item) && data1[item] !== data2[item]) {
+      result.push({
+        key: item,
+        value: data1[item],
+        status: status.removed,
+      });
+      result.push({
+        key: item,
+        value: data2[item],
+        status: status.added,
+      });
     }
-  }
-
+  });
   return result;
 };
 
