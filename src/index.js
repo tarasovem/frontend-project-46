@@ -21,8 +21,8 @@ const renderDiff = (diff) => {
   });
 
   const str = {
-    start: '\n{\n  ',
-    end: '\n}\n',
+    start: '{\n  ',
+    end: '\n}',
     body: diffList.join('\n  '),
   };
 
