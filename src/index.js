@@ -81,4 +81,8 @@ const genDiff = (filepath1, filepath2) => {
   return renderDiff(diff);
 };
 
+/* const genDiff = (filepath1, filepath2) => {
+  return filepath1 + filepath2;
+}; */
+
 export default genDiff;
