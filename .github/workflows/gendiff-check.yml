@@ -1,0 +1,16 @@
+name: gendiff-check
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Собираем проект
+        run: make install
+      - name: Запускаем линтер
+        run: make lint
+      - name: Запускаем тесты
+        run: make test

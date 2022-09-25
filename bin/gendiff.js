@@ -12,7 +12,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format')
   .action((filename1, filename2) => {
-    console.log(genDiff(filename1, filename2))
+    console.log(genDiff(filename1, filename2));
   });
 
 program.parse();
