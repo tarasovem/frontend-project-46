@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import parseData from './parsers.js';
 
 const status = {
   added: '+',
@@ -10,7 +11,9 @@ const status = {
 
 const getNormalizedData = (filepath) => {
   const absolutePath = path.resolve(process.cwd(), filepath);
-  return JSON.parse(readFileSync(absolutePath, 'utf-8'));
+  const data = readFileSync(absolutePath, 'utf-8');
+  const format = path.extname(filepath);
+  return parseData(data, format);
 };
 
 const renderDiff = (diff) => {
@@ -80,9 +83,5 @@ const genDiff = (filepath1, filepath2) => {
   const diff = getDiff(filepath1, filepath2);
   return renderDiff(diff);
 };
-
-/* const genDiff = (filepath1, filepath2) => {
-  return filepath1 + filepath2;
-}; */
 
 export default genDiff;
