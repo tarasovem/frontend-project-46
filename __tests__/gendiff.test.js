@@ -6,16 +6,26 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.resolve(__dirname, '../__fixtures__/', filename);
-const expectedResult = readFileSync(getFixturePath('expected-result.txt'), 'utf-8');
+const stylishResult = readFileSync(getFixturePath('./expected-result/stylish.txt'), 'utf-8');
+const plainResult = readFileSync(getFixturePath('./expected-result/plain.txt'), 'utf-8');
 
-describe('Сопоставление плоских данных в', () => {
-  it('JSON-файлах', () => {
-    expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toBe(expectedResult);
+describe('Сопоставление данных в', () => {
+  it('JSON-файлах, форматирование stylish', () => {
+    expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish')).toEqual(stylishResult);
   });
-  it('YAML-файлах', () => {
-    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))).toBe(expectedResult);
-    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))).toBe(expectedResult);
-    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'))).toBe(expectedResult);
-    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'))).toBe(expectedResult);
+  it('JSON-файлах, форматирование plain', () => {
+    expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(plainResult);
+  });
+  it('YAML-файлах, форматирование stylish', () => {
+    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'stylish')).toEqual(stylishResult);
+    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'stylish')).toEqual(stylishResult);
+    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'stylish')).toEqual(stylishResult);
+    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'stylish')).toEqual(stylishResult);
+  });
+  it('YAML-файлах, форматирование plain', () => {
+    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'plain')).toEqual(plainResult);
+    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'plain')).toEqual(plainResult);
+    expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'plain')).toEqual(plainResult);
+    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'plain')).toEqual(plainResult);
   });
 });
