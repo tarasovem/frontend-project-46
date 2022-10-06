@@ -7,8 +7,10 @@ const getFormatDiff = (tree, type) => {
       return stylish(tree);
     case 'plain':
       return plain(tree);
+    case 'json':
+      return JSON.stringify(tree);
     default:
-      return new Error(`Тип отображения ${type} не поддерживается`);
+      return new Error(`Тип отображения '${type}' не поддерживается`);
   }
 };
 
