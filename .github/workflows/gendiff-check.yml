@@ -14,7 +14,6 @@ jobs:
         run: make lint
       - name: Запускаем тесты
         run: make test
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           coverageCommand: make test-coverage
