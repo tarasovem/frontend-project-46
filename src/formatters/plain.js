@@ -26,7 +26,7 @@ export default (diff) => {
         case 'nested':
           return `${iter(node.value, [path])}`;
         default:
-          return new Error('This tree is bad. Try another tree');
+          throw new Error(`Неизвестный тип diff: '${node.type}'`);
       }
     });
     return _.compact(result).join('\n');

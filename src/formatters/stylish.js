@@ -30,7 +30,7 @@ const stylish = (diff) => {
       case 'nested':
         return `${indent(depth)}  ${node.key}: {\n${iter(node.value, depth + 1).join('\n')}\n${indent(depth)}  }`;
       default:
-        return new Error('This tree is bad. Try another tree');
+        throw new Error(`Неизвестный тип diff: '${node.type}'`);
     }
   });
   return `{\n${iter(diff, 1).join('\n')}\n}`;

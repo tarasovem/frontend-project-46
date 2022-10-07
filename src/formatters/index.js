@@ -10,7 +10,7 @@ const getFormatDiff = (tree, type) => {
     case 'json':
       return JSON.stringify(tree);
     default:
-      return new Error(`Тип отображения '${type}' не поддерживается`);
+      throw new Error(`Неподдерживаемый тип отображения: '${type}'`);
   }
 };
 
