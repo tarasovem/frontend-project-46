@@ -77,7 +77,7 @@ test('Ошибка неподдерживаемого расширения', () 
 
 test('Ошибка неподдерживаемого формата вывода', () => {
   expect(() => {
-    genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
+    genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'yaml');
   }).toThrow();
 });
 
