@@ -14,6 +14,10 @@ jobs:
         run: make lint
       - name: Запускаем тесты
         run: make test
-        with:
+      - name: Тестирование и публикование покрытия тестами на Codeclimate
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
           coverageCommand: make test-coverage
+          debug: true
