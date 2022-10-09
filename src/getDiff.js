@@ -11,9 +11,10 @@ const getNormalizedData = (filepath) => {
 };
 
 const buildTree = (data1, data2) => {
-  const keys = _.union(_.keys(data1), _.keys(data2)).sort();
+  const keys = _.union(_.keys(data1), _.keys(data2));
+  const sortedKeys = _.sortBy(keys);
 
-  return keys.map((key) => {
+  return sortedKeys.map((key) => {
     if (!_.has(data1, key)) {
       return { type: 'added', key, value: data2[key] };
     }
