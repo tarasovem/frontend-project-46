@@ -42,36 +42,44 @@ test('JSON-файлы, вывод - json', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toBe(jsonResult);
 });
 
-test('YAML-файлы, вывод - stylish', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'stylish')).toEqual(stylishResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'stylish')).toEqual(stylishResult);
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'stylish')).toEqual(stylishResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'stylish')).toEqual(stylishResult);
+test.each`
+  file1           | file2           | ext1 | ext2
+  ${'file1.yml'}  | ${'file2.yml'}  | ${'yml'}  | ${'yml'}
+  ${'file1.yaml'} | ${'file2.yaml'} | ${'yaml'} | ${'yaml'}
+  ${'file1.yml'}  | ${'file2.yaml'} | ${'yml'}  | ${'yaml'}
+  ${'file1.yaml'} | ${'file2.yml'}  | ${'yaml'} | ${'yml'}
+`('YAML-файлы, вывод - stylish, ($ext1 + $ext2)', ({ file1, file2 }) => {
+  expect(genDiff(getFixturePath(file1), getFixturePath(file2), 'stylish')).toEqual(stylishResult);
 });
 
-test('YAML-файлы, вывод - plain', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'plain')).toEqual(plainResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'plain')).toEqual(plainResult);
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'plain')).toEqual(plainResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'plain')).toEqual(plainResult);
+test.each`
+  file1           | file2           | ext1      | ext2
+  ${'file1.yml'}  | ${'file2.yml'}  | ${'yml'}  | ${'yml'}
+  ${'file1.yaml'} | ${'file2.yaml'} | ${'yaml'} | ${'yaml'}
+  ${'file1.yml'}  | ${'file2.yaml'} | ${'yml'}  | ${'yaml'}
+  ${'file1.yaml'} | ${'file2.yml'}  | ${'yaml'} | ${'yml'}
+`('YAML-файлы, вывод - plain, ($ext1 + $ext2)', ({ file1, file2 }) => {
+  expect(genDiff(getFixturePath(file1), getFixturePath(file2), 'plain')).toEqual(plainResult);
 });
 
-test('YAML-файлы, вывод - json', () => {
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'json')).toEqual(jsonResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json')).toEqual(jsonResult);
-  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'json')).toEqual(jsonResult);
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'json')).toEqual(jsonResult);
+test.each`
+  file1           | file2           | ext1      | ext2
+  ${'file1.yml'}  | ${'file2.yml'}  | ${'yml'}  | ${'yml'}
+  ${'file1.yaml'} | ${'file2.yaml'} | ${'yaml'} | ${'yaml'}
+  ${'file1.yml'}  | ${'file2.yaml'} | ${'yml'}  | ${'yaml'}
+  ${'file1.yaml'} | ${'file2.yml'}  | ${'yaml'} | ${'yml'}
+`('YAML-файлы, вывод - json, ($ext1 + $ext2)', ({ file1, file2 }) => {
+  expect(genDiff(getFixturePath(file1), getFixturePath(file2), 'json')).toEqual(jsonResult);
 });
 
-test('Ошибка неподдерживаемого расширения', () => {
+test.each`
+  file1           | file2         | ext1      | ext2    | formatter
+  ${'file1.txt'}  | ${'file2.md'} | ${'txt'}  | ${'md'} | ${'stylish'}
+  ${'file1.json'} | ${'file2.md'} | ${'json'} | ${'md'} | ${'plain'}
+  ${'file1.txt'}  | ${'file2.md'} | ${'txt'}  | ${'md'} | ${'json'}
+`('Ошибка неподдерживаемого расширения, ($ext1 + $ext2)', ({ file1, file2, formatter }) => {
   expect(() => {
-    genDiff(getFixturePath('file1.txt'), getFixturePath('file2.md'), 'stylish');
-  }).toThrow();
-  expect(() => {
-    genDiff(getFixturePath('file1.json'), getFixturePath('file2.md'), 'plain');
-  }).toThrow();
-  expect(() => {
-    genDiff(getFixturePath('file1.txt'), getFixturePath('file2.md'), 'json');
+    genDiff(getFixturePath(file1), getFixturePath(file2), formatter);
   }).toThrow();
 });
 
