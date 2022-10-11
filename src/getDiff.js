@@ -6,7 +6,7 @@ import parseData from './parsers.js';
 const getNormalizedData = (filepath) => {
   const absolutePath = path.resolve(process.cwd(), filepath);
   const data = readFileSync(absolutePath, 'utf-8');
-  const format = path.extname(filepath);
+  const format = path.extname(filepath).slice(1);
   return parseData(data, format);
 };
 
